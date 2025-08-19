@@ -4,11 +4,18 @@ export class Player extends Schema {
 	@type('string') public sessionId: string;
 	@type('string') public userId: string;
 	@type('string') public avatar: string;
-	@type('string') public name: string;
-	@type("number") public x: number = 0;
-	@type("number") public y: number = 0;
+	@type('string') public answer: string;
+	@type('number') public x: number = 0;
+	@type('number') public y: number = 0;
+	@type('string') public team: "left" | "right" = "left";
 }
 
 export class MyRoomState extends Schema {
-  @type({ map: Player }) players = new MapSchema<Player>();
+	@type({ map: Player }) players = new MapSchema<Player>();
+	@type("string") 
+	public question: string;
+	@type("number")
+	public leftScore: number = 0;
+	@type("number")
+	public rightScore: number = 0;
 }

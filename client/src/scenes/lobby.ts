@@ -1,47 +1,66 @@
 import { k } from "../App";
+import player from "../objs/player";
+import score from "../objs/score";
 
 import { getStateCallbacks, Room } from "colyseus.js";
 import type { MyRoomState, Player } from "../../../server/src/rooms/schema/MyRoomState";
 
 export function createLobbyScene() {
   k.scene("lobby", (room: Room<MyRoomState>) => {
+    k.add(score(room));
     const $ = getStateCallbacks(room);
 
     // keep track of player sprites
     const spritesBySessionId: Record<string, any> = {};
 
-    // listen when a player is added on server state
-    $(room.state).players.onAdd((player, sessionId) => {
-      spritesBySessionId[sessionId] = createPlayer(player);
+    // listen when a player is added in server state
+    $(room.state).players.onAdd(async (player, sessionId) => {
+      var question = k.add([
+        k.pos(k.width() / 2, 100),
+        k.text(room.state.question, {
+          // Responsive friendly
+          align: "center",
+          width: k.width(),
+        }),
+        k.anchor("top"),
+      ]);
+
+      var input = k.add([
+        k.text("..."),
+        k.textInput(true), // <- 20 chars at max
+        k.pos(k.width() / 2, k.height() / 2),
+        k.anchor("center"),
+      ]);
+
+      $(room.state).listen("question", () => {
+        question.text = room.state.question;
+      })
+
+      input.onUpdate(() => {
+        if (input.text == room.state.question) {
+          k.debug.log(player.team);
+          room.send("scored", player.team);
+          input.text = "...";
+          input.unuse("textInput");
+          input.use(k.textInput(true));
+        }
+      });
+      spritesBySessionId[sessionId] = await createPlayer(room, player);
     });
+
+
+
 
     // listen when a player is removed from server state
     $(room.state).players.onRemove((player, sessionId) => {
       k.destroy(spritesBySessionId[sessionId]);
     });
 
-    k.onClick(() => {
-      room.send("move", k.mousePos());
-    });
-
   });
 }
 
-function createPlayer(player: Player) {
-  k.loadSprite(player.avatar, `assets/${player.avatar}.png`);
-
-  // Add player sprite
-  const sprite = k.add([
-    k.sprite(player.avatar),
-    k.pos(player.x, player.y),
-    k.anchor("center"),
-    k.scale(0.5)
-  ]);
-
-  sprite.onUpdate(() => {
-    sprite.pos.x = k.lerp(sprite.pos.x, player.x, 12 * k.dt());
-    sprite.pos.y = k.lerp(sprite.pos.y, player.y, 12 * k.dt());
-  });
-
-  return sprite;
+async function createPlayer(room: Room<MyRoomState>, playerState: Player) {
+  await k.loadSprite(playerState.avatar, `assets/${playerState.avatar}.png`);
+  await k.getSprite(playerState.avatar);
+  return k.add(player(room, playerState));
 }
