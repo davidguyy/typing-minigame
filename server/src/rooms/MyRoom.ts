@@ -18,11 +18,10 @@ export class MyRoom extends Room {
   onCreate(options: any) {
     this.state.question = questionList[Math.floor(Math.random() * questionList.length)];
 
-    this.onMessage("scored", (client) => {
-      const player = this.state.players.get(client.sessionId);
-      if (player.team == "left") {
+    this.onMessage("scored", (client, message) => {
+      if (message == "left") {
         this.state.leftScore++;
-      } else if (player.team == "right") {
+      } else if (message == "right") {
         this.state.rightScore++;
       }
 
@@ -36,6 +35,7 @@ export class MyRoom extends Room {
       );
       this.state.question = questionList[Math.floor(Math.random() * questionList.length)];
     });
+
   }
 
   onJoin(client: Client, options: any) {

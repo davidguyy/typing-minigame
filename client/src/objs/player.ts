@@ -28,6 +28,6 @@ export default (room: Room<MyRoomState>, player: Player) => ([
                 k.opacity(0.2),
             ]);
         },
-
+        
     },
 ]);
