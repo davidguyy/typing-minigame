@@ -39,6 +39,7 @@ export function createLobbyScene() {
       input.onUpdate(() => {
         if (input.text == question.text) {
           if (player.sessionId == room.sessionId) {
+            k.play("score");
             room.send("scored", player.team);
           }
           input.text = "...";

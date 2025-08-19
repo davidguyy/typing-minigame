@@ -10,6 +10,7 @@ export default (room: Room<MyRoomState>, player: Player) => ([
     k.anchor("center"),
     k.scale(0), // we will scale-in player on spawn
     k.z(player.y), // update Z sorting as well by matching it to Y
+    k.animate(),
     "player",
     {
         // Define a bunch of useful properties
@@ -20,6 +21,7 @@ export default (room: Room<MyRoomState>, player: Player) => ([
             // Scale player in with nice transition once added
             k.tween(this.scale, k.vec2(1), 0.25, v => this.scale = v, k.easings.easeOutBack);
 
+
             // Raytracing :)
             this.add([
                 k.anchor("center"),
@@ -28,6 +30,6 @@ export default (room: Room<MyRoomState>, player: Player) => ([
                 k.opacity(0.2),
             ]);
         },
-        
+
     },
 ]);
