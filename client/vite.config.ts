@@ -23,5 +23,6 @@ export default defineConfig({
       '.ngrok-free.dev',
       '.ngrok-free.app',
     ],
+    host: true,
   },
 });
