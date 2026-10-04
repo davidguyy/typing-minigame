@@ -2,6 +2,8 @@
 <img width="2560" height="1323" alt="image" src="https://github.com/user-attachments/assets/57c1c652-da07-46c0-8238-4c03e7e48039" />
 a browser minigame where you can battle with another player to know who's the faster typer!!
 
+created by modifying the original [sample game](https://github.com/colyseus/kaplay)
+
 ## Running locally
 
 Open 2 terminal windows, one for the client and one for the server. Install the dependencies and run the development server.
