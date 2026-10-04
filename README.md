@@ -1,8 +1,6 @@
 # KAPLAY + Colyseus
-
-Boilerplate to quickstart a project using [KAPLAY](https://kaplayjs.com/) and [Colyseus](https://colyseus.io/) Multiplayer Framework.
-
-> This project was made for the first [KAJAM](https://itch.io/jam/kajam) + Colyseus challenge/collab.
+<img width="2560" height="1323" alt="image" src="https://github.com/user-attachments/assets/57c1c652-da07-46c0-8238-4c03e7e48039" />
+a browser minigame where you can battle with another player to know who's the faster typer!!
 
 ## Running locally
 
